@@ -1,51 +1,91 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html ng-app="currencyApp">
     <head>
-
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/font-awesome.min.css">
         <link rel="stylesheet" href="js/angular-multi-select/angular-multi-select.css">
         <link rel="stylesheet" href="style.css">
-
         <!--
-
-          <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
-
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/webjars/angular-multi-select/2.0.0/angular-multi-select.css" rel="stylesheet">
+        <link rel="stylesheet" href="http://www.hackerearth.com/exponential-front-end-challenge-1/currencyrate/vs4vijay/style.css">
         -->
     </head>
     <body ng-controller="MainCtrl">
 
+      <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"> CurrencyRate </a>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li class=""><a href="#"> About <span class="sr-only">(current)</span></a></li>
+              <li><a href="#"> Contact Us </a></li>
+            </ul>
+            <form class="navbar-form navbar-left" role="search">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Search">
+              </div>
+              <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+                <a href="https://github.com/vs4vijay" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> Vizay <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="https://github.com/vs4vijay">Profile</a></li>
+                  <li><a href="#">Settings</a></li>
+                  <li class="divider"></li>
+                  <li><a href="#">Logout</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+      </nav>
+
       <div class="container">
 
-        <div class="row">
-          <div class="col-md-6">
-            <input type="text" class="form-control" ng-model="currencyModel.baseCurrency" placeholder="Base Currency"/>
+        <div class="alert alert-info" role="alert">
+          <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          Hey, This is CurrencyApp by me, I have also created github repo for the same. you could find
+          <a href="https://github.com/vs4vijay/CuCoApp" class="alert-link"> here </a>
+        </div>
 
-            <div multi-select input-model="currencyListClone" button-label="icon symbol" on-item-click="selectBaseCurrency(data)"
-            item-label="icon name maker" tick-property="ticked" selection-mode="single" output-model="currencyModel.baseCurrency"></div>
+        <h1> CurrencyRate <small> multiple currencies, cross comparison </small></h1>
+
+        <div class="row" style="margin-top: 10px;">
+          <div class="col-md-6">
+            <input class="form-control" list="currencyList" ng-model="currencyModel.baseCurrencySymbol" placeholder="Choose base currency" ng-change="resetConvertedCurrencyList()"/>
+            <datalist id="currencyList">
+              <option ng-repeat="currency in currencyList" value="{{currency.symbol}}"> {{currency.name}} ({{currency.symbol}}) </option>
+            </datalist>
           </div>
 
           <div class="col-md-6">
-            <input type="text" class="form-control" ng-model="currencyModel.outputCurrency" placeholder="Output Currency"/>
-
-            <div multi-select input-model="currencyList" button-label="icon symbol" on-item-click="selectOutputCurrency(data)"
-            item-label="icon name maker" tick-property="ticked" output-model="currencyModel.outputCurrencyList"></div>
-
+            <div multi-select input-model="currencyList" button-label="icon symbol" on-item-click="selectOutputCurrency(data)" default-label="Add multiple currencies"
+            item-label="icon name symbol maker" tick-property="ticked"></div>
           </div>
         </div>
 
-        <div class="row">
+        <div class="row" style="margin-top: 10px;">
           <div class="col-md-6">
-
             <div class="input-group">
-              <span class="input-group-addon"> {{currencyModel.baseCurrency[0].symbol}} </span>
-              <input type="text" class="form-control">
+              <span class="input-group-addon"> {{currencyModel.baseCurrencySymbol}} </span>
+              <input type="text" class="form-control" ng-model="currencyModel.baseCurrencyValue" ng-change="resetConvertedCurrencyList()">
             </div>
-
           </div>
 
           <div class="col-md-6">
-
             <table class="table table-bordered table-striped table-hover">
               <thead>
                 <tr>
@@ -55,22 +95,23 @@
                 </tr>
               </thead>
               <tr ng-repeat="convertedCurrency in convertedCurrencyList">
-                <td> </td>
-                <td> {{convertedCurrency.symbol}} </td>
+                <td> {{convertedCurrency.value}} </td>
+                <td> <span class="label label-success">{{convertedCurrency.symbol}} </span> </td>
                 <td> {{convertedCurrency.name}} </td>
               </tr>
             </table>
-
           </div>
         </div>
 
-
-
       </div>
 
+      <div id="footer" style="height: 60px; display: none;">
+        <div class="container">
+          <p class="muted credit">Example courtesy <a href="http://github.com/vs4vijay">Vijay Soni</a>.</p>
+        </div>
+      </div>
 
     </body>
-
 
     <script type="text/javascript" src="js/angular.min.js"></script>
     <script type="text/javascript" src="js/angular-route.min.js"></script>
@@ -79,10 +120,13 @@
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/angular-multi-select/angular-multi-select.js"></script>
     <script type="text/javascript" src="magic.js"></script>
-
     <!--
-      <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-
-
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-route.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-resource.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/webjars/angular-multi-select/2.0.0/angular-multi-select.js"></script>
+    <script type="text/javascript" src="http://www.hackerearth.com/exponential-front-end-challenge-1/currencyrate/vs4vijay/magic.js"></script>
     -->
 </html>
