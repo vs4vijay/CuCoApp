@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="currencyApp">
+    <head>
+
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/font-awesome.min.css">
+        <link rel="stylesheet" href="js/angular-multi-select/angular-multi-select.css">
+        <link rel="stylesheet" href="style.css">
+
+        <!--
+
+          <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+        -->
+    </head>
+    <body ng-controller="MainCtrl">
+
+      <div class="container">
+
+        <div class="row">
+          <div class="col-md-6">
+            <input type="text" class="form-control" ng-model="currencyModel.baseCurrency" placeholder="Base Currency"/>
+
+            <div multi-select input-model="currencyListClone" button-label="icon symbol" on-item-click="selectBaseCurrency(data)"
+            item-label="icon name maker" tick-property="ticked" selection-mode="single" output-model="currencyModel.baseCurrency"></div>
+          </div>
+
+          <div class="col-md-6">
+            <input type="text" class="form-control" ng-model="currencyModel.outputCurrency" placeholder="Output Currency"/>
+
+            <div multi-select input-model="currencyList" button-label="icon symbol" on-item-click="selectOutputCurrency(data)"
+            item-label="icon name maker" tick-property="ticked" output-model="currencyModel.outputCurrencyList"></div>
+
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+
+            <div class="input-group">
+              <span class="input-group-addon"> {{currencyModel.baseCurrency[0].symbol}} </span>
+              <input type="text" class="form-control">
+            </div>
+
+          </div>
+
+          <div class="col-md-6">
+
+            <table class="table table-bordered table-striped table-hover">
+              <thead>
+                <tr>
+                  <th> Value </th>
+                  <th> Symbol </th>
+                  <th> Name </th>
+                </tr>
+              </thead>
+              <tr ng-repeat="convertedCurrency in convertedCurrencyList">
+                <td> </td>
+                <td> {{convertedCurrency.symbol}} </td>
+                <td> {{convertedCurrency.name}} </td>
+              </tr>
+            </table>
+
+          </div>
+        </div>
+
+
+
+      </div>
+
+
+    </body>
+
+
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/angular-route.min.js"></script>
+    <script type="text/javascript" src="js/angular-resource.min.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/angular-multi-select/angular-multi-select.js"></script>
+    <script type="text/javascript" src="magic.js"></script>
+
+    <!--
+      <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+
+    -->
+</html>
